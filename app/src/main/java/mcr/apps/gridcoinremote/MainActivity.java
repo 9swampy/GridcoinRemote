@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.util.Log;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String COMMAND_GET_NEW_ADDRESS = "getnewaddress";
     String BalanceString = "N/A";
     String AddressString = "Address Unknown";
+    String stakingString = "0";
     String blocksString = "0";
     String PoRDiff = "0";
     String NetWeight = "0";
@@ -55,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     String NodeConnections = "0";
     String MyMag = "0";
     boolean ErrorInDataGathering = false;
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,12 +129,14 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
             try {
                 BalanceString = getBalance();
-                AddressString = getAddress();
+                //AddressString = getAddress();
                 getMiningInfo();
                 getInfo();
-                getMyMag();
+                //getMyMag();
+                debugOutput();
             } catch (Exception e) {
                 ErrorInDataGathering = true;
+                Log.d(TAG, "doInBackground()", e);
             }
             return null;
         }
@@ -161,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
                 final TextView balanceText = findViewById(R.id.balance);
                 final TextView addressText = findViewById(R.id.address);
                 final TextView BlockText = findViewById(R.id.blocks);
+                final TextView StakingText = findViewById(R.id.staking);
                 final TextView PoRText = findViewById(R.id.PoRDifficulty);
                 final TextView NetWeightText = findViewById(R.id.NetWeight);
                 final TextView CPIDText = findViewById(R.id.CPIDText);
@@ -171,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
                 balanceText.setText(String.format("Balance: %s GRC", BalanceString));
                 addressText.setText(AddressString);
                 BlockText.setText(String.format("Blocks: %s", blocksString));
+                StakingText.setText(String.format("Staking: %s", stakingString));
                 PoRText.setText(String.format("PoR Difficulty: %s", PoRDiff));
                 NetWeightText.setText(String.format("Net Weight: %s", NetWeight));
                 CPIDText.setText(String.format("CPID: %s", CPIDString));
@@ -180,6 +188,21 @@ public class MainActivity extends AppCompatActivity {
                 ConnectionsText.setText(String.format("Connections: %s", NodeConnections));
             }
         }
+    }
+
+    private void debugOutput() {
+        Log.d(TAG, "DebugOutput()");
+        Log.d(TAG, String.format("BalanceString: %s", BalanceString));
+        Log.d(TAG, String.format("AddressString: %s", AddressString));
+        Log.d(TAG, String.format("blocksString: %s", blocksString));
+        Log.d(TAG, String.format("stakingString: %s", stakingString));
+        Log.d(TAG, String.format("PoRDiff: %s", PoRDiff));
+        Log.d(TAG, String.format("NetWeight: %s", NetWeight));
+        Log.d(TAG, String.format("CPIDString: %s", CPIDString));
+        Log.d(TAG, String.format("GRCMagUnit: %s", GRCMagUnit));
+        Log.d(TAG, String.format("ClientVersion: %s", ClientVersion));
+        Log.d(TAG, String.format("NodeConnections: %s", NodeConnections));
+        Log.d(TAG, String.format("MyMag: %s", MyMag));
     }
 
     private JSONObject invokeRPC(String id, String method, List<String> params) {
@@ -220,12 +243,14 @@ public class MainActivity extends AppCompatActivity {
 
     public String getBalance() {
         JSONObject json = invokeRPC(UUID.randomUUID().toString(), "getbalance", null);
+        Log.d(TAG, String.format("getBalance: %s", json.get("result").toString()));
         return json.get("result").toString();
     }
 
     public String getNewAddress(String account) {
         String[] params = {account};
         JSONObject json = invokeRPC(UUID.randomUUID().toString(), COMMAND_GET_NEW_ADDRESS, Arrays.asList(params));
+        Log.d(TAG, String.format("getNewAddress: %s", json.get("result").toString()));
         return (String) json.get("result");
     }
 
@@ -246,6 +271,7 @@ public class MainActivity extends AppCompatActivity {
     public void getMiningInfo() {
         JSONObject json = invokeRPC(UUID.randomUUID().toString(), "getmininginfo", null);
         JSONObject json2 = (JSONObject) json.get("result");
+        stakingString = json2.get("staking").toString();
         blocksString = json2.get("blocks").toString();
         CPIDString = json2.get("CPID").toString();
         GRCMagUnit = json2.get("Magnitude Unit").toString();

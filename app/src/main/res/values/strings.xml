@@ -19,6 +19,7 @@
     <string name="address">Address Unknown</string>
     <string name="balance">Balance: 0</string>
     <string name="blocks">Blocks: 0</string>
+    <string name="staking">Staking: 0</string>
     <string name="por_diff">PoR Difficulty: 0</string>
     <string name="netweight">Net Weight: 0</string>
     <string name="cpid">CPID: N/A</string>
