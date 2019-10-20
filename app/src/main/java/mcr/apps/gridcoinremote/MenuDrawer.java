@@ -59,6 +59,7 @@ class MenuDrawer {
     }
 
 
+    @SuppressWarnings("BooleanMethodNameMustStartWithQuestion")
     public boolean onOptionsItemSelected(MenuItem item) {
         return this.drawerToggle.onOptionsItemSelected(item);
     }

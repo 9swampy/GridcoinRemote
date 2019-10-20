@@ -21,6 +21,7 @@ import java.util.UUID;
 
 public class GridcoinRpc {
     private static final String COMMAND_GET_NEW_ADDRESS = "getnewaddress";
+    private GridcoinRpcSettings gridcoinRpcSettings = GridcoinRpcSettings.getInstance();
 
     private static final String TAG = GridcoinData.class.getSimpleName();
 
@@ -39,9 +40,9 @@ public class GridcoinRpc {
         try {
             StringEntity myEntity = new StringEntity(json.toJSONString());
             System.out.println(json.toString());
-            HttpPost httppost = new HttpPost("http://" + SignIn.ipFieldString + ":" + SignIn.portFieldString);
+            HttpPost httppost = new HttpPost("http://" + gridcoinRpcSettings.ipFieldString + ":" + gridcoinRpcSettings.portFieldString);
             httppost.setEntity(myEntity);
-            final String basicAuth = "Basic " + Base64.encodeToString((SignIn.UsernameFieldString + ":" + SignIn.PasswordFieldString).getBytes(), Base64.NO_WRAP);
+            final String basicAuth = "Basic " + Base64.encodeToString((gridcoinRpcSettings.UsernameFieldString + ":" + gridcoinRpcSettings.PasswordFieldString).getBytes(), Base64.NO_WRAP);
             httppost.setHeader("Authorization", basicAuth);
             System.out.println("executing request" + httppost.getRequestLine());
             HttpResponse response = httpclient.execute(httppost);
@@ -94,8 +95,8 @@ public class GridcoinRpc {
         gridcoinData.blocksString = json2.get("blocks").toString();
         gridcoinData.CPIDString = json2.get("CPID").toString();
         gridcoinData.GRCMagUnit = json2.get("Magnitude Unit").toString();
-        double NetWeightDouble = (double) json2.get("netstakeweight");
-        gridcoinData.NetWeight = BigDecimal.valueOf(NetWeightDouble).toPlainString();
+        double netStakeWeight = (double) json2.get("netstakeweight");
+        gridcoinData.NetWeight = BigDecimal.valueOf(netStakeWeight).toPlainString();
         JSONObject json3 = (JSONObject) json2.get("difficulty");
         gridcoinData.PoRDiff = json3.get("proof-of-stake").toString();
     }

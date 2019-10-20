@@ -2,18 +2,19 @@ package mcr.apps.gridcoinremote;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import org.apache.commons.lang3.StringUtils;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 
 /**
@@ -21,78 +22,72 @@ import android.widget.TextView;
  */
 
 public class SignIn extends AppCompatActivity {
-    static String ipFieldString = null;
-    static String portFieldString = null;
-    static String UsernameFieldString = null;
-    static String PasswordFieldString = null;
+
     static boolean SignInformationFilled = false;
     static boolean EditMode = false;
-    static boolean RememberChecked = false;
+    static GridcoinRpcSettings gridcoinRpcSettings = GridcoinRpcSettings.getInstance();
 
     protected void onCreate(Bundle savedInstanceState) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_login);
-        final TextView WelcomeText = findViewById(R.id.welcomeText);
-        final TextView HowToEnableRPCLink = findViewById(R.id.HowToEnableRPC);
+        final TextView welcomeText = findViewById(R.id.welcomeText);
+        final TextView howToEnableRPCLink = findViewById(R.id.HowToEnableRPC);
         final EditText ipField = findViewById(R.id.IPAddressText);
         final EditText portField = findViewById(R.id.PortText);
-        final EditText UsernameField = findViewById(R.id.UsernameField);
-        final EditText PasswordField = findViewById(R.id.PasswordTextBox);
-        final CheckBox RememberBox = findViewById(R.id.RememberCheckBox);
+        final EditText usernameField = findViewById(R.id.UsernameField);
+        final EditText passwordField = findViewById(R.id.PasswordTextBox);
+        final CheckBox rememberBox = findViewById(R.id.RememberCheckBox);
         final Button button = findViewById(R.id.SaveSignInButton);
-        if (EditMode)
-            WelcomeText.setText("Wallet Settings");
-        else
-            WelcomeText.setText("Welcome!");
-        if (!TextUtils.isEmpty(ipFieldString))
-            ipField.setText(ipFieldString);
-        if (!TextUtils.isEmpty(portFieldString))
-            portField.setText(portFieldString);
-        if (!TextUtils.isEmpty(UsernameFieldString))
-            UsernameField.setText(UsernameFieldString);
-        if (!TextUtils.isEmpty(PasswordFieldString))
-            PasswordField.setText(PasswordFieldString);
-        if (RememberChecked)
-            RememberBox.setChecked(true);
-        else
-            RememberBox.setChecked(false);
+        if (EditMode) {
+            welcomeText.setText("Wallet Settings");
+        } else {
+            welcomeText.setText("Welcome!");
+        }
+        if (gridcoinRpcSettings.isIpSet()) {
+            ipField.setText(gridcoinRpcSettings.ipFieldString);
+        }
+        if (gridcoinRpcSettings.isPortSet()) {
+            portField.setText(gridcoinRpcSettings.portFieldString);
+        }
+        if (gridcoinRpcSettings.isUsernameSet()) {
+            usernameField.setText(gridcoinRpcSettings.UsernameFieldString);
+        }
+        if (gridcoinRpcSettings.isPasswordSet()) {
+            passwordField.setText(gridcoinRpcSettings.PasswordFieldString);
+        }
+        if (gridcoinRpcSettings.RememberChecked) {
+            rememberBox.setChecked(true);
+        } else {
+            rememberBox.setChecked(false);
+        }
+
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Perform action on click
-
-                boolean ipFieldEmpty = false;
-                boolean portFieldEmpty = false;
-                boolean UsernameFieldEmpty = false;
-                boolean PasswordFieldEmpty = false;
-                if (ipField.getText().toString().equals(""))
-                    ipFieldEmpty = true;
-                else
-                    ipFieldString = ipField.getText().toString();
-                if (portField.getText().toString().equals(""))
-                    portFieldEmpty = true;
-                else
-                    portFieldString = portField.getText().toString();
-                if (UsernameField.getText().toString().equals(""))
-                    UsernameFieldEmpty = true;
-                else
-                    UsernameFieldString = UsernameField.getText().toString();
-                if (PasswordField.getText().toString().equals(""))
-                    PasswordFieldEmpty = true;
-                else
-                    PasswordFieldString = PasswordField.getText().toString();
-                if (ipFieldEmpty || portFieldEmpty || UsernameFieldEmpty || PasswordFieldEmpty ) {
+                if (!isIpBlank()) {
+                    gridcoinRpcSettings.ipFieldString = ipField.getText().toString();
+                }
+                if (!isPortBlank()) {
+                    gridcoinRpcSettings.portFieldString = portField.getText().toString();
+                }
+                if (!isUsernameBlank()) {
+                    gridcoinRpcSettings.UsernameFieldString = usernameField.getText().toString();
+                }
+                if (!isPasswordBlank()) {
+                    gridcoinRpcSettings.PasswordFieldString = passwordField.getText().toString();
+                }
+                if (!gridcoinRpcSettings.isSet()) {
                     SignInformationFilled = false;
                     String message, messageTitle = "Error";
                     message = "Please fill the following fields to proceed:" + System.getProperty("line.separator");
-                    if (ipFieldEmpty)
+                    if (isIpBlank())
                         message += "-IP Address Field" + System.getProperty("line.separator");
-                    if (portFieldEmpty)
+                    if (isPortBlank())
                         message += "-Port Field" + System.getProperty("line.separator");
-                    if (UsernameFieldEmpty)
+                    if (isUsernameBlank())
                         message += "-Username" + System.getProperty("line.separator");
-                    if (PasswordFieldEmpty)
+                    if (isPasswordBlank())
                         message += "-Password" + System.getProperty("line.separator");
                     AlertDialog.Builder builder = new AlertDialog.Builder(SignIn.this);
                     builder.setTitle(messageTitle);
@@ -106,37 +101,41 @@ public class SignIn extends AppCompatActivity {
                     notify.show();
                 } else {
                     SignInformationFilled = true;
-                    if (RememberBox.isChecked()) {
-                        RememberChecked = true;
-                        SharedPreferences settings = getSharedPreferences("grcremote", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putString("ip", ipFieldString);
-                        editor.putString("port", portFieldString);
-                        editor.putString("username", UsernameFieldString);
-                        editor.putString("password", PasswordFieldString);
-                        editor.apply();
+                    if (rememberBox.isChecked()) {
+                        gridcoinRpcSettings.RememberChecked = true;
+                        gridcoinRpcSettings.Save(SignIn.this);
                     } else {
-                        RememberChecked = false;
-                        try {
-                            SharedPreferences settings = getSharedPreferences("grcremote", MODE_PRIVATE);
-                            SharedPreferences.Editor editor = settings.edit();
-                            editor.remove("ip");
-                            editor.remove("port");
-                            editor.remove("username");
-                            editor.remove("password");
-                            editor.apply();
-                        } catch (Exception e) {
-                            //nothing here
-                        }
-
+                        gridcoinRpcSettings.RememberChecked = false;
+                        gridcoinRpcSettings.Forget(SignIn.this);
                     }
-                    Intent Start = new Intent(SignIn.this, MainActivity.class);
-                    startActivity(Start);
-                }
 
+                    Intent start = new Intent(SignIn.this, MainActivity.class);
+                    startActivity(start);
+                }
             }
+
+            private boolean isPasswordBlank() {
+                return isEditTextBlank(passwordField);
+            }
+
+            private boolean isUsernameBlank() {
+                return isEditTextBlank(usernameField);
+            }
+
+            private boolean isPortBlank() {
+                return isEditTextBlank(portField);
+            }
+
+            private boolean isIpBlank() {
+                return isEditTextBlank(ipField);
+            }
+
+            private boolean isEditTextBlank(EditText editText) {
+                return StringUtils.isBlank(editText.getText().toString());
+            }
+
         });
-        HowToEnableRPCLink.setOnClickListener(new View.OnClickListener() {
+        howToEnableRPCLink.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://moisescardona.me/enable-gridcoin-rpc"));
                 startActivity(browserIntent);

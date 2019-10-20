@@ -24,6 +24,10 @@ android {
         exclude 'META-INF/LICENSE'
 
     }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 
 
@@ -40,4 +44,5 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'org.apache.httpcomponents:httpclient-android:4.3.5.1'
+    implementation 'org.apache.commons:commons-text:1.8'
 }
