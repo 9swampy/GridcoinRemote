@@ -33,7 +33,8 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -206,8 +207,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private JSONObject invokeRPC(String id, String method, List<String> params) {
-        DefaultHttpClient httpclient = new DefaultHttpClient();
 
+        CloseableHttpClient httpclient = HttpClientBuilder.create().build();
+        
         JSONObject json = new JSONObject();
         json.put("method", method);
         if (null != params) {
