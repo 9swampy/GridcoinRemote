@@ -1,6 +1,5 @@
 package mcr.apps.gridcoinremote;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,18 +7,16 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.StrictMode;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.legacy.app.ActionBarDrawerToggle;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.util.Log;
@@ -41,23 +38,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 public class MainActivity extends AppCompatActivity {
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private ActionBarDrawerToggle mDrawerToggle;
+    private MenuDrawer menuDrawer;
+    private GridCoinData gridCoinData = new GridCoinData();
 
     private static final String COMMAND_GET_NEW_ADDRESS = "getnewaddress";
-    String BalanceString = "N/A";
-    final String AddressString = "Address Unknown";
-    String stakingString = "0";
-    String blocksString = "0";
-    String PoRDiff = "0";
-    String NetWeight = "0";
-    String CPIDString = "N/A";
-    String GRCMagUnit = "0";
-    String ClientVersion = "0.0.0.0";
-    String NodeConnections = "0";
-    String MyMag = "0";
-    boolean ErrorInDataGathering = false;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -68,35 +52,9 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mDrawerList = findViewById(R.id.left_drawer);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawerlistbox, getResources().getStringArray(R.array.drawerMainActivityList)));
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-        mDrawerList = findViewById(R.id.left_drawer);
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, 0, 0) {
-            public void onDrawerClosed(View view) {
-                getWindow().getDecorView().findViewById(android.R.id.content).invalidate();
-            }
 
-            public void onDrawerOpened(View drawerView) {
-                invalidateOptionsMenu();
-                mDrawerLayout.bringToFront();
-            }
+        menuDrawer = new MenuDrawer(this, new DrawerItemClickListener(),0);
 
-            public void onDrawerSlide(View drawerView, float offset) {
-                if (offset != 0)
-                    mDrawerLayout.bringToFront();
-            }
-        };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_drawer);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mDrawerList.setItemChecked(0, true);
-        mDrawerToggle.syncState();
         if (!SignIn.SignInformationFilled) {
             SharedPreferences settings = getSharedPreferences("grcremote", MODE_PRIVATE);
             SignIn.ipFieldString = settings.getString("ip", "");
@@ -129,14 +87,14 @@ public class MainActivity extends AppCompatActivity {
 
         protected Void doInBackground(Void... params) {
             try {
-                BalanceString = getBalance();
+                gridCoinData.BalanceString = getBalance();
                 //AddressString = getAddress();
                 getMiningInfo();
                 getInfo();
                 //getMyMag();
-                debugOutput();
+                MainActivity.this.gridCoinData.debugOutput();
             } catch (Exception e) {
-                ErrorInDataGathering = true;
+                gridCoinData.ErrorInDataGathering = true;
                 Log.d(TAG, "doInBackground()", e);
             }
             return null;
@@ -150,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             if (dialog != null && dialog.isShowing()) {
                 dialog.dismiss();
             }
-            if (ErrorInDataGathering) {
+            if (gridCoinData.ErrorInDataGathering) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Error");
                 builder.setMessage("Could not connect to wallet. Please verify that the wallet is running and that the server information is correct.")
@@ -176,40 +134,25 @@ public class MainActivity extends AppCompatActivity {
                 final TextView MyMagText = findViewById(R.id.MyMag);
                 final TextView ClientVersionText = findViewById(R.id.version);
                 final TextView ConnectionsText = findViewById(R.id.Connections);
-                balanceText.setText(String.format("Balance: %s GRC", BalanceString));
-                addressText.setText(AddressString);
-                BlockText.setText(String.format("Blocks: %s", blocksString));
-                StakingText.setText(String.format("Staking: %s", stakingString));
-                PoRText.setText(String.format("PoR Difficulty: %s", PoRDiff));
-                NetWeightText.setText(String.format("Net Weight: %s", NetWeight));
-                CPIDText.setText(String.format("CPID: %s", CPIDString));
-                GRCMagText.setText(String.format("GRC Mag Unit: %s", GRCMagUnit));
-                MyMagText.setText(String.format("My Magnitude: %s", MyMag));
-                ClientVersionText.setText(String.format("Client Version: %s", ClientVersion));
-                ConnectionsText.setText(String.format("Connections: %s", NodeConnections));
+                balanceText.setText(String.format("Balance: %s GRC", gridCoinData.BalanceString));
+                addressText.setText(gridCoinData.AddressString);
+                BlockText.setText(String.format("Blocks: %s", gridCoinData.blocksString));
+                StakingText.setText(String.format("Staking: %s", gridCoinData.stakingString));
+                PoRText.setText(String.format("PoR Difficulty: %s", gridCoinData.PoRDiff));
+                NetWeightText.setText(String.format("Net Weight: %s", gridCoinData.NetWeight));
+                CPIDText.setText(String.format("CPID: %s", gridCoinData.CPIDString));
+                GRCMagText.setText(String.format("GRC Mag Unit: %s", gridCoinData.GRCMagUnit));
+                MyMagText.setText(String.format("My Magnitude: %s", gridCoinData.MyMag));
+                ClientVersionText.setText(String.format("Client Version: %s", gridCoinData.ClientVersion));
+                ConnectionsText.setText(String.format("Connections: %s", gridCoinData.NodeConnections));
             }
         }
-    }
-
-    private void debugOutput() {
-        Log.d(TAG, "DebugOutput()");
-        Log.d(TAG, String.format("BalanceString: %s", BalanceString));
-        Log.d(TAG, String.format("AddressString: %s", AddressString));
-        Log.d(TAG, String.format("blocksString: %s", blocksString));
-        Log.d(TAG, String.format("stakingString: %s", stakingString));
-        Log.d(TAG, String.format("PoRDiff: %s", PoRDiff));
-        Log.d(TAG, String.format("NetWeight: %s", NetWeight));
-        Log.d(TAG, String.format("CPIDString: %s", CPIDString));
-        Log.d(TAG, String.format("GRCMagUnit: %s", GRCMagUnit));
-        Log.d(TAG, String.format("ClientVersion: %s", ClientVersion));
-        Log.d(TAG, String.format("NodeConnections: %s", NodeConnections));
-        Log.d(TAG, String.format("MyMag: %s", MyMag));
     }
 
     private JSONObject invokeRPC(String id, String method, List<String> params) {
 
         CloseableHttpClient httpclient = HttpClientBuilder.create().build();
-        
+
         JSONObject json = new JSONObject();
         json.put("method", method);
         if (null != params) {
@@ -273,38 +216,38 @@ public class MainActivity extends AppCompatActivity {
     public void getMiningInfo() {
         JSONObject json = invokeRPC(UUID.randomUUID().toString(), "getmininginfo", null);
         JSONObject json2 = (JSONObject) json.get("result");
-        stakingString = json2.get("staking").toString();
-        blocksString = json2.get("blocks").toString();
-        CPIDString = json2.get("CPID").toString();
-        GRCMagUnit = json2.get("Magnitude Unit").toString();
+        gridCoinData.stakingString = json2.get("staking").toString();
+        gridCoinData.blocksString = json2.get("blocks").toString();
+        gridCoinData.CPIDString = json2.get("CPID").toString();
+        gridCoinData.GRCMagUnit = json2.get("Magnitude Unit").toString();
         double NetWeightDouble = (double) json2.get("netstakeweight");
-        NetWeight = BigDecimal.valueOf(NetWeightDouble).toPlainString();
+        gridCoinData.NetWeight = BigDecimal.valueOf(NetWeightDouble).toPlainString();
         JSONObject json3 = (JSONObject) json2.get("difficulty");
-        PoRDiff = json3.get("proof-of-stake").toString();
+        gridCoinData.PoRDiff = json3.get("proof-of-stake").toString();
     }
 
     public void getMyMag() {
         JSONObject json = invokeRPC(UUID.randomUUID().toString(), "mymagnitude", null);
         JSONArray array = (JSONArray) json.get("result");
         JSONObject json2 = (JSONObject) array.get(1);
-        MyMag = json2.get("Magnitude (Last Superblock)").toString();
+        gridCoinData.MyMag = json2.get("Magnitude (Last Superblock)").toString();
     }
 
     public void getInfo() {
         JSONObject json = invokeRPC(UUID.randomUUID().toString(), "getinfo", null);
         JSONObject json2 = (JSONObject) json.get("result");
-        ClientVersion = json2.get("version").toString();
-        NodeConnections = json2.get("connections").toString();
+        gridCoinData.ClientVersion = json2.get("version").toString();
+        gridCoinData.NodeConnections = json2.get("connections").toString();
     }
 
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
+        this.menuDrawer.syncState();
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         //noinspection SimplifiableIfStatement
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+        if (this.menuDrawer.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -313,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
+        this.menuDrawer.onConfigurationChanged(newConfig);
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -338,8 +281,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void selectItem(int position) {
         // update selected item and title, then close the drawer
-        mDrawerList.setItemChecked(position, true);
-        mDrawerLayout.closeDrawer(mDrawerList);
+        this.menuDrawer.setItemChecked(position, true);
+        this.menuDrawer.closeDrawer();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

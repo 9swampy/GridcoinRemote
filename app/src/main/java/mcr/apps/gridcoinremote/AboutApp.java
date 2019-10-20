@@ -3,14 +3,12 @@ package mcr.apps.gridcoinremote;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import androidx.legacy.app.ActionBarDrawerToggle;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 /**
@@ -18,46 +16,15 @@ import android.widget.ListView;
  */
 
 public class AboutApp extends AppCompatActivity {
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private ActionBarDrawerToggle mDrawerToggle;
+    private MenuDrawer menuDrawer;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.aboutapp);
-        mDrawerList = findViewById(R.id.left_drawer);
-        mDrawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawerlistbox, getResources().getStringArray(R.array.drawerMainActivityList)));
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-        mDrawerList = findViewById(R.id.left_drawer);
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        mDrawerList.setOnItemClickListener(new AboutApp.DrawerItemClickListener());
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, 0, 0)
-        {
-            public void onDrawerClosed(View view)
-            {
-                getWindow().getDecorView().findViewById(android.R.id.content).invalidate();
-            }
 
-            public void onDrawerOpened(View drawerView)
-            {
-                invalidateOptionsMenu();
-                mDrawerLayout.bringToFront();
-            }
-            public void onDrawerSlide(View drawerView, float offset)
-            {
-                if (offset != 0)
-                    mDrawerLayout.bringToFront();
-            }
-        };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_drawer);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mDrawerList.setItemChecked(2, true);
-        mDrawerToggle.syncState();
+        this.menuDrawer = new MenuDrawer(this, new AboutApp.DrawerItemClickListener(),2);
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -65,23 +32,25 @@ public class AboutApp extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+        if (this.menuDrawer.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
+        this.menuDrawer.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggles
-        mDrawerToggle.onConfigurationChanged(newConfig);
+        this.menuDrawer.onConfigurationChanged(newConfig);
     }
+
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -100,9 +69,10 @@ public class AboutApp extends AppCompatActivity {
             selectItem(position);
         }
     }
+
     private void selectItem(int position) {
         // update selected item and title, then close the drawer
-        mDrawerList.setItemChecked(position, true);
-        mDrawerLayout.closeDrawer(mDrawerList);
+        this.menuDrawer.setItemChecked(position, true);
+        this.menuDrawer.closeDrawer();
     }
 }
