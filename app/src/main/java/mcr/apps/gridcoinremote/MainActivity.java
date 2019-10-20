@@ -8,11 +8,11 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.StrictMode;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.legacy.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.Menu;
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String COMMAND_GET_NEW_ADDRESS = "getnewaddress";
     String BalanceString = "N/A";
-    String AddressString = "Address Unknown";
+    final String AddressString = "Address Unknown";
     String stakingString = "0";
     String blocksString = "0";
     String PoRDiff = "0";
@@ -68,13 +68,13 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerList = findViewById(R.id.left_drawer);
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawerlistbox, getResources().getStringArray(R.array.drawerMainActivityList)));
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mDrawerList = findViewById(R.id.left_drawer);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-        mDrawerToggle = new ActionBarDrawerToggle((Activity) this, mDrawerLayout, R.drawable.ic_drawer, 0, 0) {
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, 0, 0) {
             public void onDrawerClosed(View view) {
                 getWindow().getDecorView().findViewById(android.R.id.content).invalidate();
             }
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class LoadData extends AsyncTask<Void, String, Void> {
-        ProgressDialog dialog = new ProgressDialog(MainActivity.this);
+        final ProgressDialog dialog = new ProgressDialog(MainActivity.this);
 
         protected void onPreExecute() {
             dialog.setMessage("Loading Wallet Data...");
