@@ -2,9 +2,9 @@ package mcr.apps.gridcoinremote;
 
 import android.util.Log;
 
-public class GridCoinData {
+public class GridcoinData {
     String BalanceString = "N/A";
-    final String AddressString = "Address Unknown";
+    String AddressString = "Address Unknown";
     String stakingString = "0";
     String blocksString = "0";
     String PoRDiff = "0";
@@ -16,7 +16,7 @@ public class GridCoinData {
     String MyMag = "0";
     boolean ErrorInDataGathering = false;
 
-    private static final String TAG = GridCoinData.class.getSimpleName();
+    private static final String TAG = GridcoinData.class.getSimpleName();
 
     public void debugOutput() {
         Log.d(TAG, "DebugOutput()");
