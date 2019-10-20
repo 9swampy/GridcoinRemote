@@ -2,9 +2,11 @@ package mcr.apps.gridcoinremote;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -23,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SignIn extends AppCompatActivity {
 
+    private MenuDrawer menuDrawer;
     static boolean SignInformationFilled = false;
     static boolean EditMode = false;
     static GridcoinRpcSettings gridcoinRpcSettings = GridcoinRpcSettings.getInstance();
@@ -32,6 +35,9 @@ public class SignIn extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_login);
+
+        menuDrawer = new MenuDrawer(this, 1);
+
         final TextView welcomeText = findViewById(R.id.welcomeText);
         final TextView howToEnableRPCLink = findViewById(R.id.HowToEnableRPC);
         final EditText ipField = findViewById(R.id.IPAddressText);
@@ -141,5 +147,20 @@ public class SignIn extends AppCompatActivity {
                 startActivity(browserIntent);
             }
         });
+    }
+
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        this.menuDrawer.syncState();
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return (this.menuDrawer.onOptionsItemSelected(item) || super.onOptionsItemSelected(item));
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        this.menuDrawer.onConfigurationChanged(newConfig);
     }
 }

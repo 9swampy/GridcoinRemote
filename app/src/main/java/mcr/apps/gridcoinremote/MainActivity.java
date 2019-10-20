@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        menuDrawer = new MenuDrawer(this, new DrawerItemClickListener(), 0);
+        menuDrawer = new MenuDrawer(this, 0);
 
         if (!SignIn.SignInformationFilled) {
             this.gridcoinRpcSettings.Retrieve(this);
@@ -58,32 +58,6 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         this.menuDrawer.onConfigurationChanged(newConfig);
-    }
-
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            if (position == 1) //Settings
-            {
-                SignIn.EditMode = true;
-                Intent signin = new Intent(MainActivity.this, SignIn.class);
-                startActivity(signin);
-            }
-            if (position == 2) //About App
-            {
-                Intent about = new Intent(MainActivity.this, AboutApp.class);
-                startActivity(about);
-            }
-
-            selectItem(position);
-        }
-
-    }
-
-    private void selectItem(int position) {
-        // update selected item and title, then close the drawer
-        this.menuDrawer.setItemChecked(position, true);
-        this.menuDrawer.closeDrawer();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
