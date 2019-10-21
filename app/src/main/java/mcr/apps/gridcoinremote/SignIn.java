@@ -36,7 +36,7 @@ public class SignIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_login);
 
-        menuDrawer = new MenuDrawer(this, 1);
+        this.menuDrawer = new MenuDrawer(this, 1);
 
         final TextView welcomeText = findViewById(R.id.welcomeText);
         final TextView howToEnableRPCLink = findViewById(R.id.HowToEnableRPC);
@@ -85,7 +85,8 @@ public class SignIn extends AppCompatActivity {
                 }
                 if (!gridcoinRpcSettings.isSet()) {
                     SignInformationFilled = false;
-                    String message, messageTitle = "Error";
+                    String message;
+                    String messageTitle = "Error";
                     message = "Please fill the following fields to proceed:" + System.getProperty("line.separator");
                     if (isIpBlank())
                         message += "-IP Address Field" + System.getProperty("line.separator");

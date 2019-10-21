@@ -21,34 +21,34 @@ class MenuDrawer {
 
     public MenuDrawer(AppCompatActivity appCompatActivity, int position) {
         this.appCompatActivity = appCompatActivity;
-        drawerList = this.appCompatActivity.findViewById(R.id.left_drawer);
-        drawerList.setAdapter(new ArrayAdapter<String>(appCompatActivity, R.layout.drawerlistbox, this.appCompatActivity.getResources().getStringArray(R.array.drawerMainActivityList)));
-        drawerLayout = this.appCompatActivity.findViewById(R.id.drawer_layout);
-        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        drawerList.setOnItemClickListener(new DrawerItemClickListener());
-        drawerToggle = new ActionBarDrawerToggle(appCompatActivity, drawerLayout, 0, 0) {
+        this.drawerList = this.appCompatActivity.findViewById(R.id.left_drawer);
+        this.drawerList.setAdapter(new ArrayAdapter<String>(appCompatActivity, R.layout.drawerlistbox, this.appCompatActivity.getResources().getStringArray(R.array.drawerMainActivityList)));
+        this.drawerLayout = this.appCompatActivity.findViewById(R.id.drawer_layout);
+        this.drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        this.drawerList.setOnItemClickListener(new DrawerItemClickListener());
+        this.drawerToggle = new ActionBarDrawerToggle(appCompatActivity, this.drawerLayout, 0, 0) {
             public void onDrawerClosed(View view) {
                 MenuDrawer.this.appCompatActivity.getWindow().getDecorView().findViewById(android.R.id.content).invalidate();
             }
 
             public void onDrawerOpened(View drawerView) {
                 MenuDrawer.this.appCompatActivity.invalidateOptionsMenu();
-                drawerLayout.bringToFront();
+                MenuDrawer.this.drawerLayout.bringToFront();
             }
 
             public void onDrawerSlide(View drawerView, float offset) {
                 if (offset != 0)
-                    drawerLayout.bringToFront();
+                    MenuDrawer.this.drawerLayout.bringToFront();
             }
         };
-        drawerLayout.addDrawerListener(drawerToggle);
+        this.drawerLayout.addDrawerListener(this.drawerToggle);
         this.appCompatActivity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_drawer);
         this.appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.appCompatActivity.getSupportActionBar().setHomeButtonEnabled(true);
-        drawerToggle.setDrawerIndicatorEnabled(true);
-        drawerLayout.addDrawerListener(drawerToggle);
-        drawerList.setItemChecked(position, true);
-        drawerToggle.syncState();
+        this.drawerToggle.setDrawerIndicatorEnabled(true);
+        this.drawerLayout.addDrawerListener(this.drawerToggle);
+        this.drawerList.setItemChecked(position, true);
+        this.drawerToggle.syncState();
     }
 
     public void onConfigurationChanged(Configuration newConfig) {

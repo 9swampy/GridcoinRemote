@@ -16,7 +16,7 @@ public class GridcoinData {
     String MyMag = "0";
     boolean ErrorInDataGathering = false;
 
-    private static final String TAG = GridcoinData.class.getSimpleName();
+    private static final String TAG = GridcoinData.class.getName();
 
     public void debugOutput() {
         Log.d(TAG, "DebugOutput()");
@@ -31,5 +31,6 @@ public class GridcoinData {
         Log.d(TAG, String.format("ClientVersion: %s", this.ClientVersion));
         Log.d(TAG, String.format("NodeConnections: %s", this.NodeConnections));
         Log.d(TAG, String.format("MyMag: %s", this.MyMag));
+        Log.d(TAG, String.format("ErrorInDataGathering: %s", this.ErrorInDataGathering));
     }
 }

@@ -1,5 +1,6 @@
 package mcr.apps.gridcoinremote;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
@@ -42,16 +43,24 @@ public class GridcoinRpcSettings {
         return !TextUtils.isEmpty(this.portFieldString);
     }
 
-    public void Retrieve(AppCompatActivity activity) {
-        SharedPreferences settings = getSharedPreferences(activity);
+    public void Retrieve(Context context) {
+        SharedPreferences settings = getSharedPreferences(context);
         this.ipFieldString = settings.getString("ip", "");
         this.portFieldString = settings.getString("port", "");
         this.UsernameFieldString = settings.getString("username", "");
         this.PasswordFieldString = settings.getString("password", "");
     }
 
-    private SharedPreferences getSharedPreferences(AppCompatActivity activity) {
-        return activity.getSharedPreferences("grcremote", android.content.Context.MODE_PRIVATE);
+    public int getNextNotificationId(Context context) {
+        return 1;
+        //SharedPreferences settings = getSharedPreferences(context);
+        //int id = settings.getInt("notification_id_key", 0);
+        //settings.edit().putInt("notification_id_key", (id + 1) % Integer.MAX_VALUE).apply();
+        //return id;
+    }
+
+    private SharedPreferences getSharedPreferences(Context context) {
+        return context.getSharedPreferences("grcremote", android.content.Context.MODE_PRIVATE);
     }
 
     public void Forget(AppCompatActivity activity) {

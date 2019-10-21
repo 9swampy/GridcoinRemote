@@ -15,7 +15,7 @@ public class GridcoinDataLoader extends AsyncTask<Void, String, Void> {
     final GridcoinData gridcoinData;
     final AppCompatActivity activity;
 
-    private static final String TAG = GridcoinData.class.getSimpleName();
+    private static final String TAG = GridcoinDataLoader.class.getName();
 
     public GridcoinDataLoader(GridcoinData gridcoinData, AppCompatActivity activity) {
         this.dialog = new ProgressDialog(activity);
@@ -24,15 +24,16 @@ public class GridcoinDataLoader extends AsyncTask<Void, String, Void> {
     }
 
     protected void onPreExecute() {
-        dialog.setMessage("Loading Wallet Data...");
-        dialog.show();
-        dialog.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(false);
+        this.dialog.setMessage("Loading Wallet Data...");
+        this.dialog.show();
+        this.dialog.setCancelable(false);
+        this.dialog.setCanceledOnTouchOutside(false);
         super.onPreExecute();
     }
 
     protected Void doInBackground(Void... params) {
         try {
+            this.gridcoinData.ErrorInDataGathering = false;
             GridcoinRpc gridcoinRpc = new GridcoinRpc();
             gridcoinRpc.populateBalance(this.gridcoinData);
             //AddressString = populateAddress();
@@ -41,21 +42,21 @@ public class GridcoinDataLoader extends AsyncTask<Void, String, Void> {
             //populateMyMag();
             this.gridcoinData.debugOutput();
         } catch (Exception e) {
-            gridcoinData.ErrorInDataGathering = true;
+            this.gridcoinData.ErrorInDataGathering = true;
             Log.d(TAG, "doInBackground()", e);
         }
         return null;
     }
 
     protected void onProgressUpdate(String... params) {
-        dialog.setMessage(params[0]);
+        this.dialog.setMessage(params[0]);
     }
 
     protected void onPostExecute(Void result) {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
+        if (this.dialog != null && this.dialog.isShowing()) {
+            this.dialog.dismiss();
         }
-        if (gridcoinData.ErrorInDataGathering) {
+        if (this.gridcoinData.ErrorInDataGathering) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this.activity);
             builder.setTitle("Error");
             builder.setMessage("Could not connect to wallet. Please verify that the wallet is running and that the server information is correct.")
@@ -80,17 +81,17 @@ public class GridcoinDataLoader extends AsyncTask<Void, String, Void> {
             final TextView myMagText = GridcoinDataLoader.this.activity.findViewById(R.id.MyMag);
             final TextView clientVersionText = GridcoinDataLoader.this.activity.findViewById(R.id.version);
             final TextView connectionsText = GridcoinDataLoader.this.activity.findViewById(R.id.Connections);
-            balanceText.setText(String.format("Balance: %s GRC", gridcoinData.BalanceString));
-            addressText.setText(gridcoinData.AddressString);
-            blockText.setText(String.format("Blocks: %s", gridcoinData.blocksString));
-            stakingText.setText(String.format("Staking: %s", gridcoinData.stakingString));
-            porText.setText(String.format("PoR Difficulty: %s", gridcoinData.PoRDiff));
-            netWeightText.setText(String.format("Net Weight: %s", gridcoinData.NetWeight));
-            cpidText.setText(String.format("CPID: %s", gridcoinData.CPIDString));
-            grcMagUnit.setText(String.format("GRC Mag Unit: %s", gridcoinData.GRCMagUnit));
-            myMagText.setText(String.format("My Magnitude: %s", gridcoinData.MyMag));
-            clientVersionText.setText(String.format("Client Version: %s", gridcoinData.ClientVersion));
-            connectionsText.setText(String.format("Connections: %s", gridcoinData.NodeConnections));
+            balanceText.setText(String.format("Balance: %s GRC", this.gridcoinData.BalanceString));
+            addressText.setText(this.gridcoinData.AddressString);
+            blockText.setText(String.format("Blocks: %s", this.gridcoinData.blocksString));
+            stakingText.setText(String.format("Staking: %s", this.gridcoinData.stakingString));
+            porText.setText(String.format("PoR Difficulty: %s", this.gridcoinData.PoRDiff));
+            netWeightText.setText(String.format("Net Weight: %s", this.gridcoinData.NetWeight));
+            cpidText.setText(String.format("CPID: %s", this.gridcoinData.CPIDString));
+            grcMagUnit.setText(String.format("GRC Mag Unit: %s", this.gridcoinData.GRCMagUnit));
+            myMagText.setText(String.format("My Magnitude: %s", this.gridcoinData.MyMag));
+            clientVersionText.setText(String.format("Client Version: %s", this.gridcoinData.ClientVersion));
+            connectionsText.setText(String.format("Connections: %s", this.gridcoinData.NodeConnections));
         }
     }
 }

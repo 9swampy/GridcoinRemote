@@ -6,28 +6,26 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     private MenuDrawer menuDrawer;
-    private GridcoinData gridcoinData = new GridcoinData();
-    private GridcoinRpcSettings gridcoinRpcSettings = GridcoinRpcSettings.getInstance();
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private final GridcoinData gridcoinData = new GridcoinData();
+    private final GridcoinRpcSettings gridcoinRpcSettings = GridcoinRpcSettings.getInstance();
+
+    private static final String TAG = MainActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        menuDrawer = new MenuDrawer(this, 0);
+        this.menuDrawer = new MenuDrawer(this, 0);
+        Alarm.getInstance().setAlarm(this);
 
         if (!SignIn.SignInformationFilled) {
             this.gridcoinRpcSettings.Retrieve(this);
