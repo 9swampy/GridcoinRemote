@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:text="@string/signin_welcome"
+                android:text="@string/signInWelcome"
                 android:textSize="36sp" />
 
             <ImageView
@@ -56,12 +56,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/HowToEnableRPC"
                 android:layout_alignStart="@+id/textView11"
-                android:layout_alignLeft="@+id/textView11"
                 android:layout_alignEnd="@+id/textView11"
-                android:layout_alignRight="@+id/textView11"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                android:hint="@string/enter_the_rpc_port_number"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:importantForAutofill="no" />
 
             <TextView
                 android:id="@+id/textView12"
@@ -69,8 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/IPAddressText"
                 android:layout_alignStart="@+id/IPAddressText"
-                android:layout_alignLeft="@+id/IPAddressText"
-                android:text="@string/signin_port" />
+                android:text="@string/signInPort" />
 
             <EditText
                 android:id="@+id/PortText"
@@ -78,12 +77,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView12"
                 android:layout_alignStart="@+id/textView12"
-                android:layout_alignLeft="@+id/textView12"
                 android:layout_alignEnd="@+id/IPAddressText"
-                android:layout_alignRight="@+id/IPAddressText"
                 android:ems="10"
+                android:hint="@string/enter_the_rpc_server_address_or_ip"
                 android:inputType="number"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:importantForAutofill="no" />
 
             <TextView
                 android:id="@+id/textView13"
@@ -91,8 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/PortText"
                 android:layout_alignStart="@+id/PortText"
-                android:layout_alignLeft="@+id/PortText"
-                android:text="@string/signin_username" />
+                android:text="@string/signInUsername" />
 
             <EditText
                 android:id="@+id/UsernameField"
@@ -100,12 +98,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView13"
                 android:layout_alignStart="@+id/textView13"
-                android:layout_alignLeft="@+id/textView13"
                 android:layout_alignEnd="@+id/PortText"
-                android:layout_alignRight="@+id/PortText"
+                android:hint="@string/enter_the_rpc_username"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:importantForAutofill="no" />
 
             <TextView
                 android:id="@+id/PasswordTextView"
@@ -113,8 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/UsernameField"
                 android:layout_alignStart="@+id/UsernameField"
-                android:layout_alignLeft="@+id/UsernameField"
-                android:text="@string/signin_password" />
+                android:text="@string/signInPassword" />
 
             <EditText
                 android:id="@+id/PasswordTextBox"
@@ -122,12 +119,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/PasswordTextView"
                 android:layout_alignStart="@+id/PasswordTextView"
-                android:layout_alignLeft="@+id/PasswordTextView"
                 android:layout_alignEnd="@+id/UsernameField"
-                android:layout_alignRight="@+id/UsernameField"
+                android:hint="@string/enter_the_rpc_password"
                 android:ems="10"
                 android:inputType="textPassword"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:importantForAutofill="no" />
 
             <TextView
                 android:id="@+id/textView11"
@@ -137,7 +134,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:text="@string/signin_ip" />
+                android:text="@string/signInIp" />
 
             <CheckBox
                 android:id="@+id/RememberCheckBox"
@@ -145,8 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/PasswordTextBox"
                 android:layout_alignStart="@+id/PasswordTextBox"
-                android:layout_alignLeft="@+id/PasswordTextBox"
-                android:text="@string/signin_remember" />
+                android:text="@string/signInRemember" />
 
             <Button
                 android:id="@+id/SaveSignInButton"
@@ -154,10 +150,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/RememberCheckBox"
                 android:layout_alignStart="@+id/RememberCheckBox"
-                android:layout_alignLeft="@+id/RememberCheckBox"
                 android:layout_alignEnd="@+id/PasswordTextBox"
-                android:layout_alignRight="@+id/PasswordTextBox"
-                android:text="@string/signin_signin" />
+                android:text="@string/signInSignIn" />
 
             <TextView
                 android:id="@+id/HowToEnableRPC"
@@ -165,8 +159,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView11"
                 android:layout_alignEnd="@+id/IPAddressText"
-                android:layout_alignRight="@+id/IPAddressText"
-                android:text="@string/howtoenablerpc"
+                android:text="@string/howToEnableRpc"
                 android:textColor="#0000FF" />
         </RelativeLayout>
     </ScrollView>

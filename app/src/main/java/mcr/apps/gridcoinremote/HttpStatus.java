@@ -13,7 +13,7 @@ public enum HttpStatus {
     OK(200, "OK", "The request sent by the client was successful."),
     Created(201, "Created", "The request was successful and the resource has been created."),
     Accepted(202, "Accepted", "The request has been accepted but has not yet finished processing."),
-    NonAuthoritativeInformation(203, "Non-Authoritative Information", "The returned meta-information in the entity header is not the definitative set of information, it might be a local copy or contain local alterations."),
+    NonAuthoritativeInformation(203, "Non-Authoritative Information", "The returned meta-information in the entity header is not the definitive set of information, it might be a local copy or contain local alterations."),
     NoContent(204, "No Content", "The request was successful but not require the return of an entity body."),
     ResetContent(205, "Reset Content", "The request was successful and the user agent should reset the view that sent the request."),
     PartialContent(206, "Partial Content", "The partial request was successful."),
@@ -50,7 +50,7 @@ public enum HttpStatus {
     InternalServerError(500, "Internal Server Error", "The request was unsuccessful because the server encountered an unexpected error."),
     NotImplemented(501, "Not Implemented", "The server does not support the request."),
     BadGateway(502, "Bad Gateway", "The server, whilst acting as a proxy, received an invalid response from the server that was fulfilling the request."),
-    ServiceUnavailable(503, "Service Unavailable", "The request was unsuccessful as the server is either down or slash^H^H^H^H^Hdug^H^H^Hreddited."),
+    @SuppressWarnings("SpellCheckingInspection") ServiceUnavailable(503, "Service Unavailable", "The request was unsuccessful as the server is either down or slash^H^H^H^H^Hdug^H^H^Hreddited."),
     GatewayTimeout(504, "Gateway Timeout", "The server, whilst acting as a proxy, did not receive a response from the upstream server in an acceptable time."),
     HttpVersionNotSupported(505, "HTTP Version Not Supported", "The server does not supported the HTTP protocol version specified in the request"),
 
@@ -73,7 +73,7 @@ public enum HttpStatus {
      *
      * @return the int status code this enum represents
      */
-    public final int getCode() {
+    public int getCode() {
         return this.code;
     }
 

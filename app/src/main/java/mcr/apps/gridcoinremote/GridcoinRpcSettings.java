@@ -51,16 +51,8 @@ public class GridcoinRpcSettings {
         this.PasswordFieldString = settings.getString("password", "");
     }
 
-    public int getNextNotificationId(Context context) {
-        return 1;
-        //SharedPreferences settings = getSharedPreferences(context);
-        //int id = settings.getInt("notification_id_key", 0);
-        //settings.edit().putInt("notification_id_key", (id + 1) % Integer.MAX_VALUE).apply();
-        //return id;
-    }
-
     private SharedPreferences getSharedPreferences(Context context) {
-        return context.getSharedPreferences("grcremote", android.content.Context.MODE_PRIVATE);
+        return context.getSharedPreferences("grcRemote", android.content.Context.MODE_PRIVATE);
     }
 
     public void Forget(AppCompatActivity activity) {

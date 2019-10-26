@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
     <item
         android:id="@+id/RefreshData"
-        android:title="Refresh"
+        android:title="@string/refresh"
         android:orderInCategory="100"
         app:showAsAction="never"
         android:onClick="RefreshData"/>

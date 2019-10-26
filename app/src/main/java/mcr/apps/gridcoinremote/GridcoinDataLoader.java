@@ -1,7 +1,6 @@
 package mcr.apps.gridcoinremote;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -10,10 +9,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class GridcoinDataLoader extends AsyncTask<Void, String, Void> {
-    final ProgressDialog dialog;
-    final GridcoinData gridcoinData;
-    final AppCompatActivity activity;
+class GridcoinDataLoader extends AsyncTask<Void, String, Void> {
+    private final ProgressDialog dialog;
+    private final GridcoinData gridcoinData;
+    private final AppCompatActivity activity;
 
     private static final String TAG = GridcoinDataLoader.class.getName();
 
@@ -36,7 +35,8 @@ public class GridcoinDataLoader extends AsyncTask<Void, String, Void> {
             this.gridcoinData.ErrorInDataGathering = false;
             GridcoinRpc gridcoinRpc = new GridcoinRpc();
             gridcoinRpc.populateBalance(this.gridcoinData);
-            //AddressString = populateAddress();
+            //gridcoinRpc.populateAddress(this.gridcoinData);
+            gridcoinRpc.populatePrimaryAddress(this.gridcoinData);
             gridcoinRpc.populateMiningInfo(this.gridcoinData);
             gridcoinRpc.populateInfo(this.gridcoinData);
             //populateMyMag();
@@ -45,6 +45,10 @@ public class GridcoinDataLoader extends AsyncTask<Void, String, Void> {
             this.gridcoinData.ErrorInDataGathering = true;
             Log.d(TAG, "doInBackground()", e);
         }
+        finally {
+            new NotificationUpdater().updateNotification(this.activity, this.gridcoinData);
+        }
+
         return null;
     }
 
@@ -53,19 +57,17 @@ public class GridcoinDataLoader extends AsyncTask<Void, String, Void> {
     }
 
     protected void onPostExecute(Void result) {
-        if (this.dialog != null && this.dialog.isShowing()) {
+        if (this.dialog.isShowing()) {
             this.dialog.dismiss();
         }
         if (this.gridcoinData.ErrorInDataGathering) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this.activity);
             builder.setTitle("Error");
             builder.setMessage("Could not connect to wallet. Please verify that the wallet is running and that the server information is correct.")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            SignIn.EditMode = true;
-                            Intent signin = new Intent(GridcoinDataLoader.this.activity, SignIn.class);
-                            GridcoinDataLoader.this.activity.startActivity(signin);
-                        }
+                    .setPositiveButton("OK", (dialog, id) -> {
+                        SignIn.EditMode = true;
+                        Intent signIn = new Intent(GridcoinDataLoader.this.activity, SignIn.class);
+                        GridcoinDataLoader.this.activity.startActivity(signIn);
                     });
             AlertDialog notify = builder.create();
             notify.show();

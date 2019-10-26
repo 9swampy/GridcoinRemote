@@ -28,7 +28,7 @@ public class SignIn extends AppCompatActivity {
     private MenuDrawer menuDrawer;
     static boolean SignInformationFilled = false;
     static boolean EditMode = false;
-    static GridcoinRpcSettings gridcoinRpcSettings = GridcoinRpcSettings.getInstance();
+    private static final GridcoinRpcSettings gridcoinRpcSettings = GridcoinRpcSettings.getInstance();
 
     protected void onCreate(Bundle savedInstanceState) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -47,9 +47,9 @@ public class SignIn extends AppCompatActivity {
         final CheckBox rememberBox = findViewById(R.id.RememberCheckBox);
         final Button button = findViewById(R.id.SaveSignInButton);
         if (EditMode) {
-            welcomeText.setText("Wallet Settings");
+            welcomeText.setText(R.string.wallet_settings);
         } else {
-            welcomeText.setText("Welcome!");
+            welcomeText.setText(R.string.welcome);
         }
         if (gridcoinRpcSettings.isIpSet()) {
             ipField.setText(gridcoinRpcSettings.ipFieldString);

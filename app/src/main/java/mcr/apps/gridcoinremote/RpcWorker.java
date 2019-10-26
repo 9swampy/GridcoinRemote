@@ -25,7 +25,7 @@ public class RpcWorker implements IRpcWorker {
         this.gridcoinRpcSettings = gridcoinRpcSettings;
     }
 
-    public JSONObject invokeRPC(String id, String method, List<String> params) {
+    public JSONObject invokeRPC(String method, List<String> params) {
 
         CloseableHttpClient httpclient = HttpClientBuilder.create().build();
 
@@ -36,7 +36,8 @@ public class RpcWorker implements IRpcWorker {
             array.addAll(params);
             json.put("params", params);
         }
-        JSONObject responseJsonObj = null;
+
+        JSONObject responseJsonObj;
         try {
             StringEntity myEntity = new StringEntity(json.toJSONString());
             System.out.println(json);
@@ -52,13 +53,16 @@ public class RpcWorker implements IRpcWorker {
             if (entity != null) {
                 System.out.println("Response content length: " + entity.getContentLength());
             }
+
             JSONParser parser = new JSONParser();
             responseJsonObj = (JSONObject) parser.parse(EntityUtils.toString(entity));
         } catch (Exception e) {
             e.printStackTrace();
+            responseJsonObj = null;
         } finally {
             httpclient.getConnectionManager().shutdown();
         }
+
         return responseJsonObj;
     }
 }

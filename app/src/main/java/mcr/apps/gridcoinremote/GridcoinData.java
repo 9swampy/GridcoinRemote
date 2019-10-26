@@ -2,7 +2,7 @@ package mcr.apps.gridcoinremote;
 
 import android.util.Log;
 
-public class GridcoinData {
+class GridcoinData {
     String BalanceString = "N/A";
     String AddressString = "Address Unknown";
     String stakingString = "0";

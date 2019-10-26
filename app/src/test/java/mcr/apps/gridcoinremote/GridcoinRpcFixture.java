@@ -20,25 +20,26 @@ public class GridcoinRpcFixture {
     private IRpcWorker mockRpcWorker;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void GivenUnconnectedWhenGetMiningInfoThenErrorInDataGathering() throws Exception {
+    public void GivenNullResponseWhenGetMiningInfoThenErrorInDataGatheringSet() {
         GridcoinRpc sut = new GridcoinRpc(mockRpcWorker);
         GridcoinData data = new GridcoinData();
         sut.populateMiningInfo(data);
 
-        assertEquals(true, data.ErrorInDataGathering);
+        assertTrue(data.ErrorInDataGathering);
     }
 
+
     @Test
-    public void GivenExpectedValueWhenGetBalanceThenExpectedValueReturned() throws Exception {
+    public void GivenExpectedValueWhenGetBalanceThenExpectedValueReturned() {
         String expectedValue = "12345";
         JSONObject rpcResponse = new JSONObject();
         rpcResponse.put("result", expectedValue);
-        when(mockRpcWorker.invokeRPC(anyString(), anyString(), Mockito.any())).thenReturn(rpcResponse);
+        when(mockRpcWorker.invokeRPC(anyString(), Mockito.any())).thenReturn(rpcResponse);
         GridcoinRpc sut = new GridcoinRpc(mockRpcWorker);
         GridcoinData data = new GridcoinData();
         sut.populateBalance(data);

@@ -58,9 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/imageView2"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
                 android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
                 android:text=""
                 android:textSize="24sp" />
 
@@ -70,10 +68,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/balance"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
                 android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
-                android:text="@string/youraddress" />
+                android:text="@string/yourAddress" />
 
             <TextView
                 android:id="@+id/address"
@@ -81,9 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
                 android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
                 android:text="@string/address" />
 
             <TextView
@@ -92,9 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/address"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
                 android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
                 android:layout_marginTop="26dp"
                 android:text="@string/blocks" />
 
@@ -104,9 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/blocks"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
                 android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
                 android:layout_marginTop="26dp"
                 android:text="@string/staking" />
 
@@ -116,10 +106,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/PoRDifficulty"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
                 android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
-                android:text="@string/netweight" />
+                android:text="@string/netWeight" />
 
             <TextView
                 android:id="@+id/CPIDText"
@@ -127,9 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/NetWeight"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
                 android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
                 android:text="@string/cpid" />
 
             <TextView
@@ -138,10 +124,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/CPIDText"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
                 android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
-                android:text="@string/grcmagunit" />
+                android:text="@string/grcMagnitudeUnit" />
 
             <TextView
                 android:id="@+id/MyMag"
@@ -149,10 +133,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/MagUnit"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
                 android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
-                android:text="@string/mymag" />
+                android:text="@string/myMagnitude" />
 
             <TextView
                 android:id="@+id/version"
@@ -160,11 +142,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/MyMag"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
                 android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/clientversion" />
+                android:text="@string/clientVersion" />
 
             <TextView
                 android:id="@+id/Connections"
@@ -172,9 +152,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/version"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
                 android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
                 android:text="@string/connections" />
 
             <TextView
@@ -183,9 +161,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/staking"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
                 android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
                 android:text="@string/por_diff" />
         </RelativeLayout>
     </ScrollView>

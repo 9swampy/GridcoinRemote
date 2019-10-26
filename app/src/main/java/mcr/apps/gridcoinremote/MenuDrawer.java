@@ -22,7 +22,7 @@ class MenuDrawer {
     public MenuDrawer(AppCompatActivity appCompatActivity, int position) {
         this.appCompatActivity = appCompatActivity;
         this.drawerList = this.appCompatActivity.findViewById(R.id.left_drawer);
-        this.drawerList.setAdapter(new ArrayAdapter<String>(appCompatActivity, R.layout.drawerlistbox, this.appCompatActivity.getResources().getStringArray(R.array.drawerMainActivityList)));
+        this.drawerList.setAdapter(new ArrayAdapter<>(appCompatActivity, R.layout.drawerlistbox, this.appCompatActivity.getResources().getStringArray(R.array.drawerMainActivityList)));
         this.drawerLayout = this.appCompatActivity.findViewById(R.id.drawer_layout);
         this.drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         this.drawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -65,11 +65,11 @@ class MenuDrawer {
         return this.drawerToggle.onOptionsItemSelected(item);
     }
 
-    public void setItemChecked(int position, boolean value) {
+    private void setItemChecked(int position, boolean value) {
         this.drawerList.setItemChecked(position, value);
     }
 
-    public void closeDrawer() {
+    private void closeDrawer() {
         this.drawerLayout.closeDrawer(this.drawerList);
     }
 
@@ -84,8 +84,8 @@ class MenuDrawer {
             if (position == 1) //Settings
             {
                 SignIn.EditMode = true;
-                Intent signin = new Intent(MenuDrawer.this.appCompatActivity, SignIn.class);
-                MenuDrawer.this.appCompatActivity.startActivity(signin);
+                Intent signIn = new Intent(MenuDrawer.this.appCompatActivity, SignIn.class);
+                MenuDrawer.this.appCompatActivity.startActivity(signIn);
             }
             if (position == 2) //About App
             {
