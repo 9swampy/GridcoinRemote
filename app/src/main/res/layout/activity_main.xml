@@ -13,6 +13,155 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/mainactivity_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/wallet"
+                        android:textSize="36sp" />
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="150dp"
+                        android:layout_below="@+id/textView2"
+                        android:layout_centerHorizontal="true"
+                        android:contentDescription="@string/logo"
+                        app:srcCompat="@mipmap/gridcoin_logo" />
+
+                    <TextView
+                        android:id="@+id/balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/imageView2"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="20dp"
+                        android:text=""
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/balance"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="20dp"
+                        android:text="@string/yourAddress" />
+
+                    <TextView
+                        android:id="@+id/address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textView"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="20dp"
+                        android:text="@string/address" />
+
+                    <TextView
+                        android:id="@+id/blocks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/address"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="26dp"
+                        android:text="@string/blocks" />
+
+                    <TextView
+                        android:id="@+id/staking"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/blocks"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="26dp"
+                        android:text="@string/staking" />
+
+                    <TextView
+                        android:id="@+id/NetWeight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/PoRDifficulty"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="20dp"
+                        android:text="@string/netWeight" />
+
+                    <TextView
+                        android:id="@+id/CPIDText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/NetWeight"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="20dp"
+                        android:text="@string/cpid" />
+
+                    <TextView
+                        android:id="@+id/MagUnit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/CPIDText"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="20dp"
+                        android:text="@string/grcMagnitudeUnit" />
+
+                    <TextView
+                        android:id="@+id/MyMag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/MagUnit"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="20dp"
+                        android:text="@string/myMagnitude" />
+
+                    <TextView
+                        android:id="@+id/version"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/MyMag"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/clientVersion" />
+
+                    <TextView
+                        android:id="@+id/Connections"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/version"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="20dp"
+                        android:text="@string/connections" />
+
+                    <TextView
+                        android:id="@+id/PoRDifficulty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/staking"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="20dp"
+                        android:text="@string/por_diff" />
+                </RelativeLayout>
+            </ScrollView>
+
+        </RelativeLayout>
+
         <ListView
             android:id="@+id/left_drawer"
             android:layout_width="240dp"
@@ -26,143 +175,4 @@
             android:focusable="true" />
     </androidx.drawerlayout.widget.DrawerLayout>
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:text="@string/wallet"
-                android:textSize="36sp" />
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="150dp"
-                android:layout_below="@+id/textView2"
-                android:layout_centerHorizontal="true"
-                android:contentDescription="@string/logo"
-                app:srcCompat="@mipmap/gridcoin_logo" />
-
-            <TextView
-                android:id="@+id/balance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/imageView2"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:text=""
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/balance"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:text="@string/yourAddress" />
-
-            <TextView
-                android:id="@+id/address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/textView"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:text="@string/address" />
-
-            <TextView
-                android:id="@+id/blocks"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/address"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="26dp"
-                android:text="@string/blocks" />
-
-            <TextView
-                android:id="@+id/staking"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/blocks"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="26dp"
-                android:text="@string/staking" />
-
-            <TextView
-                android:id="@+id/NetWeight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/PoRDifficulty"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:text="@string/netWeight" />
-
-            <TextView
-                android:id="@+id/CPIDText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/NetWeight"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:text="@string/cpid" />
-
-            <TextView
-                android:id="@+id/MagUnit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/CPIDText"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:text="@string/grcMagnitudeUnit" />
-
-            <TextView
-                android:id="@+id/MyMag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/MagUnit"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:text="@string/myMagnitude" />
-
-            <TextView
-                android:id="@+id/version"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/MyMag"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/clientVersion" />
-
-            <TextView
-                android:id="@+id/Connections"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/version"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:text="@string/connections" />
-
-            <TextView
-                android:id="@+id/PoRDifficulty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/staking"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:text="@string/por_diff" />
-        </RelativeLayout>
-    </ScrollView>
 </RelativeLayout>
