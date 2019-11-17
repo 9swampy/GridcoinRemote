@@ -5,8 +5,11 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.PowerManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.Objects;
 import java.util.concurrent.locks.ReentrantLock;
@@ -32,9 +35,29 @@ public class Alarm extends BroadcastReceiver {
         PowerManager.WakeLock wl = Objects.requireNonNull(pm).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "gridcoinremote:alarmTag");
         wl.acquire(1000*60);
 
-        onTimerNotification(context);
+        if (isOnline(context)) {
+            onTimerNotification(context);
+        }
+        else
+        {
+            Log.d(TAG, "gridcoinremote.isOffline");
+            Toast.makeText(context, "GridcoinRemote is offline...", Toast.LENGTH_SHORT).show();
+        }
 
         wl.release();
+    }
+
+    public boolean isOnline(Context context) {
+        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        //noinspection RedundantIfStatement
+        if (networkInfo != null
+                && networkInfo.isAvailable()
+                && networkInfo.isConnected()) {
+            return true;
+        }
+
+        return false;
     }
 
     public void setAlarm(Context context) {
@@ -47,7 +70,7 @@ public class Alarm extends BroadcastReceiver {
                 Intent intent = new Intent(context, Alarm.class);
                 PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
                 //alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, System.currentTimeMillis(), 1000 * 6 * 1, alarmIntent); // Millisecond * Second * Minute
-                Objects.requireNonNull(alarmManager).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 2000, 1000 * 60 * 5, alarmIntent);
+                Objects.requireNonNull(alarmManager).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 2000, 1000 * 6 * 5, alarmIntent);
                 //Toast.makeText(context, "Time:" + System.currentTimeMillis(), Toast.LENGTH_LONG).show();
                 Log.d(TAG, "setAlarmDone");
             }

@@ -1,10 +1,12 @@
 package mcr.apps.gridcoinremote;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Looper;
 import android.util.Log;
@@ -88,9 +90,13 @@ class NotificationUpdater {
                 .setContentTitle("Gridcoin Wallet")
                 .setContentText(notificationMessage)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setLights(Color.WHITE, 1000, 5000)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
+        Notification notif = builder.build();
+        notif.flags |= Notification.FLAG_SHOW_LIGHTS;
+
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        notificationManager.notify(this.getNextNotificationId(context), builder.build());
+        notificationManager.notify(this.getNextNotificationId(context), notif);
     }
 }
