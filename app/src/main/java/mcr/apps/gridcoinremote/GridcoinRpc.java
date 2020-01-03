@@ -96,6 +96,31 @@ class GridcoinRpc {
     }
 
     @SuppressWarnings("SpellCheckingInspection")
+    public void populateWalletInfo(GridcoinData gridcoinData) {
+        try {
+            JSONObject json = invokeRPC("getwalletinfo", null);
+            if (null == json) {
+                gridcoinData.ErrorInDataGathering = true;
+            }
+            else
+            {
+                JSONObject jsonResult = (JSONObject) json.get("result");
+                if (null != jsonResult) {
+                    Function<String, Object> jsonExtractor = (s) -> jsonResult.get(s);
+                    UpdateValue(jsonExtractor, "staking", s -> gridcoinData.stakingString = s.toString());
+                    UpdateValue(jsonExtractor, "balance", s -> gridcoinData.BalanceString = s.toString());
+                }
+            }
+        } catch (Exception e) {
+            Log.d(TAG, String.format("Exception: %s", e.toString()));
+            e.printStackTrace();
+            gridcoinData.ErrorInDataGathering = true;
+        }
+    }
+
+
+
+    @SuppressWarnings("SpellCheckingInspection")
     public void populateMiningInfo(GridcoinData gridcoinData) {
         try {
             JSONObject json = invokeRPC("getmininginfo", null);

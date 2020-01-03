@@ -56,7 +56,7 @@ class NotificationUpdater {
         Log.d(TAG, String.format("gridcoinData.stakingString: %s", gridcoinData.stakingString));
         Log.d(TAG, String.format("gridcoinData.ErrorInDataGathering: %s", gridcoinData.ErrorInDataGathering));
         if (gridcoinData.ErrorInDataGathering) {
-            updateNotification(context,R.drawable.gridcoin_comms_logo,"Raise notification to check connection to Gridcoin wallet...","Check connection to Gridcoin wallet!","Check connection to wallet...", SignIn.class);
+            updateNotification(context,R.drawable.gridcoin_comms_logo,"Raise notification to check connection to Gridcoin wallet...","Check connection to Gridcoin wallet!","Check connection to wallet...", CheckConnection.class);
         } else if (gridcoinData.stakingString != "true") {
             updateNotification(context,R.drawable.gridcoin_detail_borderless_logo,"Raise notification to unlock Gridcoin wallet...","Unlock Gridcoin wallet!","Log in to your wallet to unlock for staking...", MainActivity.class);
         } else {

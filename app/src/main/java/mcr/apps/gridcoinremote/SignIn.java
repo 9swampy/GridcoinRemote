@@ -41,7 +41,7 @@ public class SignIn extends AppCompatActivity {
         final TextView welcomeText = findViewById(R.id.welcomeText);
         final TextView howToEnableRPCLink = findViewById(R.id.HowToEnableRPC);
         final EditText ipField = findViewById(R.id.IPAddressText);
-        final EditText portField = findViewById(R.id.PortText);
+        final EditText portField = findViewById(R.id.PortEditText);
         final EditText usernameField = findViewById(R.id.UsernameField);
         final EditText passwordField = findViewById(R.id.PasswordTextBox);
         final CheckBox rememberBox = findViewById(R.id.RememberCheckBox);

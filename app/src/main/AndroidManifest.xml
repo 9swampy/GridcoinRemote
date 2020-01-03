@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".SignIn" />
         <activity android:name=".AboutApp" />
+        <activity android:name=".CheckConnection" />
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
         <receiver android:process=":remote"  android:name=".Alarm">
             <intent-filter>

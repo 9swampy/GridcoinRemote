@@ -66,7 +66,7 @@ class GridcoinDataLoader extends AsyncTask<Void, String, Void> {
             builder.setMessage("Could not connect to wallet. Please verify that the wallet is running and that the server information is correct.")
                     .setPositiveButton("OK", (dialog, id) -> {
                         SignIn.EditMode = true;
-                        Intent signIn = new Intent(GridcoinDataLoader.this.activity, SignIn.class);
+                        Intent signIn = new Intent(GridcoinDataLoader.this.activity, CheckConnection.class);
                         GridcoinDataLoader.this.activity.startActivity(signIn);
                     });
             AlertDialog notify = builder.create();

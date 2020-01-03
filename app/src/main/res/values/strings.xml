@@ -37,4 +37,7 @@
     <string name="enter_the_rpc_password">Enter the RPC password</string>
     <string name="wallet_settings">Wallet Settings</string>
     <string name="welcome">Welcome!</string>
+    <string name="the_configuration_may_be_incorrect_or_the_connection_may_just_be_temporarily_down">The configuration may be incorrect or the connection may just be temporarily down...</string>
+    <string name="check_the_connnection_to_your_wallet">Check the connnection to your wallet.</string>
+    <string name="connection_error">Connection Error</string>
 </resources>
