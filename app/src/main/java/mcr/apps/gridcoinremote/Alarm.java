@@ -106,7 +106,7 @@ public class Alarm extends BroadcastReceiver {
         gridcoinData.ErrorInDataGathering = false;
         Thread t = new Thread(() -> {
             try {
-                new GridcoinRpc().populateWalletInfo(gridcoinData);
+                new GridcoinRpc().populateMiningInfo(gridcoinData);
             } catch (Exception e) {
                 Log.d(TAG, "onTimerNotification:Thread ", e);
                 gridcoinData.ErrorInDataGathering = true;
