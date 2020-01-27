@@ -22,8 +22,10 @@ public class Alarm extends BroadcastReceiver {
     private static final GridcoinData gridcoinData = new GridcoinData();
     private boolean isSet = false;
     private final ReentrantLock lock = new ReentrantLock();
+    private INetworkChecker networkChecker;
 
     public Alarm() {
+        this.setNetworkChecker(new NetworkChecker());
     }
 
     @Override
@@ -35,7 +37,7 @@ public class Alarm extends BroadcastReceiver {
         PowerManager.WakeLock wl = Objects.requireNonNull(pm).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "gridcoinremote:alarmTag");
         wl.acquire(1000*60);
 
-        if (isOnline(context)) {
+        if (this.networkChecker.isOnline(context)) {
             onTimerNotification(context);
         }
         else
@@ -47,17 +49,9 @@ public class Alarm extends BroadcastReceiver {
         wl.release();
     }
 
-    public boolean isOnline(Context context) {
-        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        //noinspection RedundantIfStatement
-        if (networkInfo != null
-                && networkInfo.isAvailable()
-                && networkInfo.isConnected()) {
-            return true;
-        }
-
-        return false;
+    public void setNetworkChecker(INetworkChecker networkChecker)
+    {
+        this.networkChecker = networkChecker;
     }
 
     public void setAlarm(Context context) {
