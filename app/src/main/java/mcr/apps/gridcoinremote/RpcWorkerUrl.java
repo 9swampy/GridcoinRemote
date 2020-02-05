@@ -53,6 +53,7 @@ public class RpcWorkerUrl implements IRpcWorker {
                 connection.setReadTimeout(15000);
                 connection.setConnectTimeout(15000);
                 connection.setRequestMethod("POST");
+                connection.setRequestProperty("Connection", "close");
                 connection.setDoInput(true);
                 connection.setDoOutput(true);
 
